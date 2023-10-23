@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS companies (
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255),
-    username VARCHAR(255),
-    email VARCHAR(255),
+    username VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
     phone VARCHAR(20),
     website VARCHAR(255)
 --     address_id INT REFERENCES addresses(id),
