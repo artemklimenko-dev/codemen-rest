@@ -33,6 +33,14 @@ public class User {
     
     @Column(name="website")
     private String website;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "company_id", referencedColumnName = "id")
+    private Company company;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address address;
     @Override
     public String toString() {
         return String.format(
