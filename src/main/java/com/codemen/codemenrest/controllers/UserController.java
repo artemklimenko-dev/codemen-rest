@@ -3,6 +3,7 @@ package com.codemen.codemenrest.controller;
 import com.codemen.codemenrest.entity.User;
 import com.codemen.codemenrest.entity.UserModelAssembler;
 import com.codemen.codemenrest.entity.dto.UserDto;
+import com.codemen.codemenrest.exceptions.UserNotFoundException;
 import com.codemen.codemenrest.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +13,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -31,35 +32,38 @@ public class UserController {
 
     private final UserModelAssembler userModelAssembler;
 
-//    @GetMapping
-//    public List<User> findAll() {
-//
-//        return userService.findAll();
-//    }
-
     @GetMapping
-    public ResponseEntity findAll(
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public ResponseEntity<PagedModel<User>> findAll(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required=false, defaultValue = "") String name) {
         try {
-            List<User> users = new ArrayList<User>();
             Pageable paging = PageRequest.of(page, size);
-
-            Page<User> pageTuts = userService.findAll(paging);
-
+            Page<User> pagedData;
+            if(!name.isEmpty()) {
+                pagedData = userService.findByNameContaining(name, paging);
+            } else {
+                pagedData = userService.findAll(paging);
+            }
             return ResponseEntity
                     .ok()
                     .contentType(MediaTypes.HAL_JSON)
-                    .body(pagedResourcesAssembler.toModel(pageTuts, userModelAssembler));
+                    .body(pagedResourcesAssembler.toModel(pagedData, userModelAssembler));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity findById(@PathVariable Long id) {
-        return new ResponseEntity<>(userService.findById(id), HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Optional<User>> findById(@PathVariable Long id) {
+        Optional<User> user = userService.findById(id);
+        if (user.isEmpty()) {
+            throw new UserNotFoundException("User not found with id: " + id);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping
@@ -68,9 +72,10 @@ public class UserController {
        return new ResponseEntity<>(userService.save(user.toUser()), HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public User update(@RequestBody User user) {
-        return userService.save(user);
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody @Valid UserDto user) {
+        return new ResponseEntity<>(userService.update(id, user.toUser()), HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -79,7 +84,7 @@ public class UserController {
     }
 
     @GetMapping("/find/username/{username}")
-    public List<User> findByUsername(@PathVariable String username) {
-        return userService.findByUsername(username);
+    public ResponseEntity<List<User>> findByUsername(@PathVariable String username) {
+        return new ResponseEntity<>(userService.findByUsername(username), HttpStatus.OK);
     }
 }
