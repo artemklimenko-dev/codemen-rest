@@ -82,7 +82,7 @@ public class UserController {
         userService.deleteById(id);
     }
 
-    @GetMapping("/find/username/{username}")
+    @GetMapping("/username/{username}")
     public ResponseEntity<List<User>> findByUsername(@PathVariable String username) {
         return new ResponseEntity<>(userService.findByUsername(username), HttpStatus.OK);
     }

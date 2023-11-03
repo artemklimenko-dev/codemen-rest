@@ -13,7 +13,7 @@ Spring Data JPA with Hibernate under the hood<br>
 Spring Web<br>
 Swagger<br>
 Docker and docker-compose<br>
-Flyway migrations
+Flyway migrations<br>
 
 ## DONE
 API versioning<br>
