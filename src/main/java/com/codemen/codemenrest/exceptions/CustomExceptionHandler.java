@@ -1,6 +1,7 @@
 package com.codemen.codemenrest.exceptions;
 
 import com.codemen.codemenrest.entities.ErrorResponse;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -54,6 +55,19 @@ public class CustomExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErrorResponse> handleNotFoundException(UserNotFoundException ex, HttpServletRequest request) {
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        ErrorResponse result = new ErrorResponse()
+                .setPath(request.getRequestURI())
+                .setStatus(HttpStatus.NOT_FOUND.value())
+                .setTimestamp(OffsetDateTime.now())
+                .setErrors(errors);
+
+        return new ResponseEntity<>(result, new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ErrorResponse> handleNotFoundException(EntityNotFoundException ex, HttpServletRequest request) {
         List<String> errors = Collections.singletonList(ex.getMessage());
         ErrorResponse result = new ErrorResponse()
                 .setPath(request.getRequestURI())

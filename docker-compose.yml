@@ -1,8 +1,7 @@
 version: '3.8'
 services:
   postgres:
-    image: postgres:latest
-    container_name: my_postgres_db
+    image: postgres:16
     ports:
       - "5432:5432"
     environment:
@@ -11,6 +10,30 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - codemen-network
+
+  backend:
+    image: codemen-backend:latest
+    build:
+      context: .
+      dockerfile: ./backend.Dockerfile
+    container_name: codemen-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/codemendb
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: password
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - codemen-network
 
 volumes:
   postgres_data:
+
+
+networks:
+  codemen-network:
+    driver: bridge

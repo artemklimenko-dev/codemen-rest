@@ -87,7 +87,12 @@ public class UserService {
     }
 
     public void deleteById(Long id) {
-        userRepository.deleteById(id);
+        User existingUser = userRepository.findById(id).orElse(null);
+        if (existingUser != null) {
+            userRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("User not found with id: " + id);
+        }
     }
 
     public List<User> findByUsername(String username) {

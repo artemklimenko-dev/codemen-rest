@@ -10,6 +10,5 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByUsername(String username);
     Page<User> findAll(Pageable page);
-
     Page<User> findByNameContaining(String username, Pageable page);
 }
