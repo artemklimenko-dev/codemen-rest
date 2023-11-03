@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS addresses (
     id SERIAL PRIMARY KEY,
-    street VARCHAR(255),
+    street VARCHAR(255) NOT NULL,
     suite VARCHAR(255),
     city VARCHAR(255),
     zipcode VARCHAR(20)
@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS addresses (
 
 CREATE TABLE IF NOT EXISTS companies (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255),
+    name VARCHAR(255) NOT NULL,
     catch_phrase VARCHAR(255),
     bs VARCHAR(255)
 );

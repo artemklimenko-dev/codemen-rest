@@ -1,4 +1,4 @@
-package com.codemen.codemenrest.entity;
+package com.codemen.codemenrest.entities;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

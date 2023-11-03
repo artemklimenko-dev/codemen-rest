@@ -1,7 +1,6 @@
-package com.codemen.codemenrest.entity.dto;
+package com.codemen.codemenrest.entities.dto;
 
-import com.codemen.codemenrest.entity.Address;
-import com.codemen.codemenrest.entity.Company;
+import com.codemen.codemenrest.entities.Address;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 

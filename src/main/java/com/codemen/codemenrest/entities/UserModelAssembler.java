@@ -1,5 +1,5 @@
-package com.codemen.codemenrest.entity;
-import com.codemen.codemenrest.controller.UserController;
+package com.codemen.codemenrest.entities;
+import com.codemen.codemenrest.controllers.UserController;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;

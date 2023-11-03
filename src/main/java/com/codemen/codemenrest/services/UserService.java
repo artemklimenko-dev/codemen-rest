@@ -1,4 +1,4 @@
-package com.codemen.codemenrest.service;
+package com.codemen.codemenrest.services;
 
 import com.codemen.codemenrest.entities.Address;
 import com.codemen.codemenrest.entities.Company;

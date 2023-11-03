@@ -1,10 +1,10 @@
-package com.codemen.codemenrest.controller;
+package com.codemen.codemenrest.controllers;
 
-import com.codemen.codemenrest.entity.User;
-import com.codemen.codemenrest.entity.UserModelAssembler;
-import com.codemen.codemenrest.entity.dto.UserDto;
+import com.codemen.codemenrest.entities.User;
+import com.codemen.codemenrest.entities.UserModelAssembler;
+import com.codemen.codemenrest.entities.dto.UserDto;
 import com.codemen.codemenrest.exceptions.UserNotFoundException;
-import com.codemen.codemenrest.service.UserService;
+import com.codemen.codemenrest.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 
 public class UserController {

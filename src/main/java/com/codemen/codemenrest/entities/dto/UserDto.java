@@ -1,7 +1,6 @@
-package com.codemen.codemenrest.entity.dto;
+package com.codemen.codemenrest.entities.dto;
 
-import com.codemen.codemenrest.entity.Company;
-import com.codemen.codemenrest.entity.User;
+import com.codemen.codemenrest.entities.User;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

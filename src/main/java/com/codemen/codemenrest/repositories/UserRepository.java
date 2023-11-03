@@ -1,6 +1,6 @@
-package com.codemen.codemenrest.repository;
+package com.codemen.codemenrest.repositories;
 
-import com.codemen.codemenrest.entity.User;
+import com.codemen.codemenrest.entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
